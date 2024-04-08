@@ -1,5 +1,4 @@
 import 'package:bapbi_app/router.dart';
-import 'package:bapbi_app/theme.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: FlexThemeData.light(
-        colorScheme: flexSchemeLight,
+        scheme: FlexScheme.indigoM3,
         fontFamily: 'Poppins',
         splashFactory: NoSplash.splashFactory,
         subThemesData: const FlexSubThemesData(
@@ -39,7 +38,8 @@ class MyApp extends ConsumerWidget {
         ),
       ),
       darkTheme: FlexThemeData.dark(
-        colorScheme: flexSchemeDark,
+        scheme: FlexScheme.indigoM3,
+        // colorScheme: flexSchemeDark,
         fontFamily: 'Poppins',
         splashFactory: NoSplash.splashFactory,
         subThemesData: const FlexSubThemesData(

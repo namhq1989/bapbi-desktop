@@ -1,11 +1,11 @@
 name: bapbi_app
 description: "An utilize application for office-person"
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.2 <4.0.0'
+  sdk: ">=3.3.2 <4.0.0"
 
 dependencies:
   flutter:
@@ -20,6 +20,7 @@ dependencies:
   auto_route: ^8.0.3
   easy_sidemenu: ^0.6.0
   lucide_icons: ^0.257.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +35,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/logo.svg
 
   fonts:
     - family: Poppins
