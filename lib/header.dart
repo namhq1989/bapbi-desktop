@@ -1,11 +1,20 @@
+import 'package:bapbi_app/hover_icon.dart';
 import 'package:bapbi_app/main.dart';
+import 'package:bapbi_app/popover.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:popover/popover.dart';
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
   const Header({super.key});
+
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  final GlobalKey _notificationAnchorKey = GlobalKey();
+  final GlobalKey _profileAnchorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +37,9 @@ class Header extends StatelessWidget {
                         ? LucideIcons.sun
                         : LucideIcons.moon;
 
-                    return HoverWidget(
+                    return HoverIcon(
                       icon: icon,
-                      onTap: (context) {
+                      onTap: () {
                         ref
                             .read(themeModeStateProvider.notifier)
                             .toggleThemeMode();
@@ -41,32 +50,46 @@ class Header extends StatelessWidget {
                 const SizedBox(
                   width: 16.0,
                 ),
-                HoverWidget(
+                HoverIcon(
+                  key: _notificationAnchorKey,
                   icon: LucideIcons.bell,
-                  onTap: (context) {
+                  onTap: () {
                     print('tapped on Notification');
+                    showAppPopover(
+                      context: context,
+                      anchorKey: _notificationAnchorKey,
+                      width: 200,
+                      height: 166,
+                      padding: 12.0,
+                      content: const SizedBox(
+                        child: ProfileMenuContent(),
+                      ),
+                      onClose: () {
+                        print('profile popver closed');
+                      },
+                    );
                   },
                 ),
                 const SizedBox(
                   width: 16.0,
                 ),
-                HoverWidget(
+                HoverIcon(
+                  key: _profileAnchorKey,
                   icon: LucideIcons.userCircle,
-                  onTap: (context) {
-                    showPopover(
+                  onTap: () {
+                    print('tapped on Profile');
+                    showAppPopover(
                       context: context,
-                      bodyBuilder: (context) {
-                        return const Center(
-                          child: Text('Profile'),
-                        );
+                      anchorKey: _profileAnchorKey,
+                      width: 200,
+                      height: 160,
+                      padding: 12.0,
+                      content: const SizedBox(
+                        child: ProfileMenuContent(),
+                      ),
+                      onClose: () {
+                        print('profile popver closed');
                       },
-                      radius: 10.0,
-                      direction: PopoverDirection.bottom,
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      width: 300,
-                      height: 500,
-                      arrowDxOffset: 100,
-                      barrierColor: Colors.transparent,
                     );
                   },
                 ),
@@ -79,52 +102,110 @@ class Header extends StatelessWidget {
   }
 }
 
-class HoverWidget extends StatefulWidget {
-  const HoverWidget({
-    super.key,
-    required this.icon,
-    required this.onTap,
-    this.isSelected = false,
-  });
-
-  final IconData icon;
-  final Function(BuildContext) onTap;
-  final bool isSelected;
-
-  @override
-  State<HoverWidget> createState() => _HoverWidgetState();
-}
-
-class _HoverWidgetState extends State<HoverWidget> {
-  bool isHovered = false;
+class ProfileMenuContent extends StatelessWidget {
+  const ProfileMenuContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        widget.onTap(context);
-      },
-      child: MouseRegion(
-        onEnter: (event) => setState(() => isHovered = true),
-        onExit: (event) => setState(() => isHovered = false),
-        cursor: SystemMouseCursors.click,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+          child: Text('Nam HQ', style: TextStyle(fontSize: 14)),
+        ),
+        const SizedBox(
+          height: 8.0,
+        ),
+        const Divider(
+          height: 2.0,
+        ),
+        const SizedBox(
+          height: 24.0,
+        ),
+        HoverableMenuItem(
+          iconData: LucideIcons.settings,
+          text: 'Account settings',
+          onTap: () {
+            // Handle Settings tap
+            print('Settings tapped');
+          },
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        HoverableMenuItem(
+          iconData: LucideIcons.logOut,
+          text: 'Sign out',
+          onTap: () {
+            // Handle Logout tap
+            print('Logout tapped');
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class HoverableMenuItem extends StatefulWidget {
+  final IconData iconData;
+  final String text;
+  final VoidCallback onTap;
+
+  const HoverableMenuItem({
+    super.key,
+    required this.iconData,
+    required this.text,
+    required this.onTap,
+  });
+
+  @override
+  State<HoverableMenuItem> createState() => _HoverableMenuItemState();
+}
+
+class _HoverableMenuItemState extends State<HoverableMenuItem> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => _setHover(true),
+      onExit: (_) => _setHover(false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: widget.onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 9.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: isHovered
-                ? Theme.of(context).colorScheme.inversePrimary
-                : Colors.transparent,
-          ),
-          child: Icon(
-            widget.icon,
-            size: 20.0,
-            color: widget.isSelected
-                ? Theme.of(context).colorScheme.primary
-                : null,
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                widget.iconData,
+                color: _isHovered
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.onSurface,
+                size: 16.0,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                widget.text,
+                style: TextStyle(
+                  color: _isHovered
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  void _setHover(bool value) {
+    setState(() {
+      _isHovered = value;
+    });
   }
 }

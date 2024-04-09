@@ -22,6 +22,7 @@ dependencies:
   lucide_icons: ^0.257.0
   flutter_svg: ^2.0.10+1
   popover: ^0.3.0
+  pull_down_button: ^0.9.3
 
 dev_dependencies:
   flutter_test:
