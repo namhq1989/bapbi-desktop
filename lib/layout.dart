@@ -1,49 +1,54 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bapbi_app/header.dart';
+import 'package:bapbi_app/home.dart';
+import 'package:bapbi_app/invoice.dart';
+import 'package:bapbi_app/order.dart';
+import 'package:bapbi_app/product.dart';
 import 'package:bapbi_app/sidebar.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 const backgroundStartColor = Color(0xFFFFD500);
 const backgroundEndColor = Color(0xFFF6A00C);
 
 @RoutePage()
-class LayoutScreen extends StatelessWidget {
+class LayoutScreen extends StatefulWidget {
   const LayoutScreen({super.key});
+
+  @override
+  State<LayoutScreen> createState() => _LayoutScreenState();
+}
+
+class _LayoutScreenState extends State<LayoutScreen> {
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
-          const Sidebar(),
+          Sidebar(onSelect: (i) {
+            setState(() {
+              _pageController.jumpToPage(i);
+            });
+          }),
           Expanded(
-            child: Container(
-              child: Column(
-                children: [
-                  WindowTitleBarBox(
-                    child: Container(
-                      color: Theme.of(context).colorScheme.surfaceVariant,
-                      child: Row(
-                        children: [
-                          Expanded(child: MoveWindow()),
-                          const WindowButtons(),
-                        ],
-                      ),
-                    ),
+            child: Column(
+              children: [
+                const Header(),
+                Expanded(
+                  child: PageView(
+                    controller: _pageController,
+                    children: const [
+                      HomeScreen(),
+                      ProductScreen(),
+                      OrderScreen(),
+                      InvoiceScreen(),
+                    ],
                   ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      color: Theme.of(context).colorScheme.surface,
-                      child: const Center(
-                        child: Text('CONTENT'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           )
         ],

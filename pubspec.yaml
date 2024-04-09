@@ -21,6 +21,7 @@ dependencies:
   easy_sidemenu: ^0.6.0
   lucide_icons: ^0.257.0
   flutter_svg: ^2.0.10+1
+  popover: ^0.3.0
 
 dev_dependencies:
   flutter_test:

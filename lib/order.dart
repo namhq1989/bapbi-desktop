@@ -2,16 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class ProductScreen extends StatelessWidget {
-  const ProductScreen({super.key});
+class OrderScreen extends StatelessWidget {
+  const OrderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    print('RENDER PRODUCT SCREEN');
+    print('RENDER ORDER SCREEN');
     return const Scaffold(
       body: SafeArea(
           child: Center(
-        child: Text('PRODUCT SCREEN'),
+        child: Text('ORDER SCREEN'),
       )),
     );
   }

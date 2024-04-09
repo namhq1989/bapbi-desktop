@@ -13,22 +13,47 @@ void main() {
     appWindow.size = initialSize;
     appWindow.alignment = Alignment.center;
     appWindow.minSize = initialSize;
+    appWindow.title = 'Bapbi App';
     appWindow.show();
   });
 }
 
-final themeModeProvider = StateProvider((ref) => ThemeMode.dark);
+// final themeModeProvider = StateProvider((ref) => ThemeMode.dark);
+final themeModeProvider = Provider<ThemeData>(
+  (ref) => throw UnimplementedError(),
+  dependencies: const [],
+);
+
+final themeModeStateProvider =
+    AutoDisposeNotifierProvider<ThemeModeState, ThemeMode>(
+  ThemeModeState.new,
+);
+
+class ThemeModeState extends AutoDisposeNotifier<ThemeMode> {
+  @override
+  ThemeMode build() => ThemeMode.dark;
+
+  void toggleThemeMode() {
+    if (state == ThemeMode.dark) {
+      state = ThemeMode.light;
+    } else {
+      state = ThemeMode.dark;
+    }
+  }
+}
+
+final approuter = AppRouter();
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeModeProvider);
-    final approuter = AppRouter();
+    final themeMode = ref.watch(themeModeStateProvider);
 
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'BapBi',
+      debugShowCheckedModeBanner: false,
       theme: FlexThemeData.light(
         scheme: FlexScheme.indigoM3,
         fontFamily: 'Poppins',
@@ -39,7 +64,6 @@ class MyApp extends ConsumerWidget {
       ),
       darkTheme: FlexThemeData.dark(
         scheme: FlexScheme.indigoM3,
-        // colorScheme: flexSchemeDark,
         fontFamily: 'Poppins',
         splashFactory: NoSplash.splashFactory,
         subThemesData: const FlexSubThemesData(
@@ -47,66 +71,14 @@ class MyApp extends ConsumerWidget {
         ),
       ),
       themeMode: themeMode,
+      builder: (context, child) {
+        final theme = Theme.of(context);
+        return ProviderScope(
+          overrides: [themeModeProvider.overrideWithValue(theme)],
+          child: child!,
+        );
+      },
       routerConfig: approuter.config(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Consumer(builder: (context, ref, _) {
-              final theme = ref.watch(themeModeProvider);
-              return ElevatedButton(
-                  onPressed: () {
-                    ref.read(themeModeProvider.notifier).state =
-                        theme == ThemeMode.dark
-                            ? ThemeMode.light
-                            : ThemeMode.dark;
-                  },
-                  child: const Text('Switch theme'));
-            }),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }

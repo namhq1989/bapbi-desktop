@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -12,19 +14,42 @@ class ItemSpace extends StatelessWidget {
 }
 
 class Sidebar extends StatefulWidget {
-  const Sidebar({super.key});
+  const Sidebar({super.key, required this.onSelect});
+
+  final Function(int) onSelect;
 
   @override
-  _SidebarState createState() => _SidebarState();
+  State<Sidebar> createState() => _SidebarState();
 }
 
 class _SidebarState extends State<Sidebar> {
-  int selectedIndex = 0; // Default to first item
+  int _selectedIndex = 0;
+
+  // Define your menu items including the screen widget they should show
+  final List<MenuItem> _menuItems = [
+    MenuItem(
+      icon: LucideIcons.heartPulse,
+      title: 'Health',
+    ),
+    MenuItem(
+      icon: LucideIcons.alarmClock,
+      title: 'Schedule',
+    ),
+    MenuItem(
+      icon: LucideIcons.stickyNote,
+      title: 'Note',
+    ),
+    MenuItem(
+      icon: LucideIcons.circleDollarSign,
+      title: 'Expense',
+    ),
+  ];
 
   void selectItem(int index) {
     setState(() {
-      selectedIndex = index;
+      _selectedIndex = index;
     });
+    widget.onSelect(index);
   }
 
   @override
@@ -52,38 +77,30 @@ class _SidebarState extends State<Sidebar> {
           ),
           const ItemSpace(),
           const ItemSpace(),
-          HoverWidget(
-            icon: LucideIcons.heartPulse,
-            title: 'Health',
-            isSelected: selectedIndex == 0,
-            onTap: () => selectItem(0),
-          ),
-          const ItemSpace(),
-          HoverWidget(
-            icon: LucideIcons.alarmClock,
-            title: 'Schedule',
-            isSelected: selectedIndex == 1,
-            onTap: () => selectItem(1),
-          ),
-          const ItemSpace(),
-          HoverWidget(
-            icon: LucideIcons.stickyNote,
-            title: 'Note',
-            isSelected: selectedIndex == 2,
-            onTap: () => selectItem(2),
-          ),
-          const ItemSpace(),
-          HoverWidget(
-            icon: LucideIcons.circleDollarSign,
-            title: 'Expense',
-            isSelected: selectedIndex == 3,
-            onTap: () => selectItem(3),
-          ),
-          const ItemSpace(),
+          ..._menuItems.map((item) {
+            return Column(
+              children: [
+                HoverWidget(
+                  icon: item.icon,
+                  title: item.title,
+                  isSelected: _selectedIndex == _menuItems.indexOf(item),
+                  onTap: () => selectItem(_menuItems.indexOf(item)),
+                ),
+                const ItemSpace(),
+              ],
+            );
+          }),
         ],
       ),
     );
   }
+}
+
+class MenuItem {
+  final IconData icon;
+  final String title;
+
+  MenuItem({required this.icon, required this.title});
 }
 
 class HoverWidget extends StatefulWidget {
@@ -101,7 +118,7 @@ class HoverWidget extends StatefulWidget {
   final bool isSelected;
 
   @override
-  _HoverWidgetState createState() => _HoverWidgetState();
+  State<HoverWidget> createState() => _HoverWidgetState();
 }
 
 class _HoverWidgetState extends State<HoverWidget> {
