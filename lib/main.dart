@@ -8,11 +8,12 @@ void main() {
   runApp(const ProviderScope(child: MyApp()));
 
   doWhenWindowReady(() {
-    const initialSize = Size(1200, 700);
+    const initialSize = Size(1400, 800);
     appWindow.minSize = initialSize;
     appWindow.size = initialSize;
     appWindow.alignment = Alignment.center;
-    appWindow.minSize = initialSize;
+    appWindow.minSize = const Size(800, 800);
+    // appWindow.minSize = initialSize;
     appWindow.title = 'Bapbi App';
     appWindow.show();
   });

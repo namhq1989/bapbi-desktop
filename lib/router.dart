@@ -3,7 +3,7 @@ import 'package:bapbi_app/router.gr.dart';
 
 @AutoRouterConfig()
 class AppRouter extends $AppRouter implements AutoRouteGuard {
-  final bool isAuthenticated = true;
+  final bool isAuthenticated = false;
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
