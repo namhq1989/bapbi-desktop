@@ -3,17 +3,19 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:bapbi_app/hover_cursor.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:http/http.dart' as http;
 
 const List<String> scopes = <String>[
   'email',
   'https://www.googleapis.com/auth/userinfo.profile',
 ];
 
-const String clientId = 'CLIENT_ID';
+const String clientId = '';
+const String clientSecret = '';
 
 @RoutePage()
 class LoginScreen extends StatelessWidget {
@@ -78,45 +80,42 @@ class LoginContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             width: 100,
             height: 100,
-            color: Colors.green, // Placeholder for the logo
+            child: Image.asset(
+              'assets/images/logo.png',
+              width: 100,
+              height: 100,
+              fit: BoxFit.cover,
+            ), // Placeholder for the logo
           ),
           const SizedBox(height: 10),
           const Text(
             'A useful application for office workers',
           ),
-          const SizedBox(height: 30),
-          SignInWithGoogleButton(
+          const SizedBox(height: 50),
+          SignInButton(
             text: 'Sign in with Google',
+            bgColor: const Color(0xFFF2F2F2),
+            textColor: const Color(0xFF1F1F1F),
+            logo: 'google_logo.png',
             onPressed: () async {
               final authcode = await signInWithGoogle();
               print('authcode $authcode');
             },
           ),
-          const SizedBox(height: 30),
-          Divider(
-            height: 2,
-            color: Theme.of(context).colorScheme.outline,
-          ),
-          const SizedBox(height: 30),
-          Text(
-            'No account? Let\'s sign up',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.outline,
-              fontSize: 13.0,
-            ),
-          ),
-          const SizedBox(height: 10),
-          SignInWithGoogleButton(
-            text: 'Sign up with Google',
-            onPressed: () {
-              // Handle sign-up logic
-              print('Signing up with Google');
+          const SizedBox(height: 12),
+          SignInButton(
+            text: 'Sign in with Facebook',
+            bgColor: const Color(0xFF1877F2),
+            textColor: const Color(0xFFFFFFFF),
+            logo: 'facebook_logo.png',
+            onPressed: () async {
+              print('Sign in with Facebook');
             },
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -128,6 +127,20 @@ class LoginContainer extends StatelessWidget {
               const SizedBox(width: 6.0),
               Text(
                 'No credit card required',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.outline,
+                  fontSize: 13.0,
+                ),
+              ),
+              const SizedBox(width: 12.0),
+              Icon(
+                LucideIcons.badgeCheck,
+                size: 16.0,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              const SizedBox(width: 6.0),
+              Text(
+                'Free access',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.outline,
                   fontSize: 13.0,
@@ -180,10 +193,19 @@ class ImageContainer extends StatelessWidget {
       width: 500,
       height: 600,
       decoration: const BoxDecoration(
-        color: Colors.yellow, // Extra container with yellow color
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(10.0),
           bottomRight: Radius.circular(10.0),
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(10.0),
+          bottomRight: Radius.circular(10.0),
+        ),
+        child: Image.asset(
+          'assets/images/login_side_photo.jpg',
+          fit: BoxFit.cover,
         ),
       ),
     );
@@ -242,8 +264,6 @@ Future<String> _startLocalServer(int port) async {
 
 Future<Map<String, dynamic>> exchangeCodeForTokens(
     String authCode, String redirectUri) async {
-  const String clientSecret = 'CLIENT_SECRET';
-
   final response = await http.post(
     Uri.parse('https://oauth2.googleapis.com/token'),
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -262,5 +282,68 @@ Future<Map<String, dynamic>> exchangeCodeForTokens(
   } else {
     throw Exception(
         'Failed to exchange authorization code for tokens. Status code: ${response.statusCode}');
+  }
+}
+
+class SignInButton extends StatelessWidget {
+  final String text;
+  final Color bgColor;
+  final Color textColor;
+  final String logo;
+  final VoidCallback onPressed;
+
+  const SignInButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.bgColor,
+    required this.textColor,
+    required this.logo,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return HoverableCursor(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20.0,
+        ),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        width: double.infinity,
+        height: 40.0,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: 38.0,
+              height: 38.0,
+              margin: const EdgeInsets.only(left: 1.0, top: 1.0, bottom: 1.0),
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Image.asset(
+                  'assets/images/$logo',
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: textColor,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8.0),
+          ],
+        ),
+      ),
+    );
   }
 }

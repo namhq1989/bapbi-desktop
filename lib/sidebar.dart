@@ -62,11 +62,10 @@ class _SidebarState extends State<Sidebar> {
         children: [
           const ItemSpace(),
           SizedBox(
-            // color: Colors.blue,
             width: double.infinity,
             height: 60,
             child: Center(
-              child: SvgPicture.asset(
+              child: Image.asset(
                 'assets/images/logo.svg',
                 width: 30,
                 height: 30,
