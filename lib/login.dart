@@ -13,8 +13,7 @@ const List<String> scopes = <String>[
   'https://www.googleapis.com/auth/userinfo.profile',
 ];
 
-const String clientId =
-    '801463191685-ehfa3smacs35qv5b46sfslihevjra0e5.apps.googleusercontent.com';
+const String clientId = 'CLIENT_ID';
 
 @RoutePage()
 class LoginScreen extends StatelessWidget {
@@ -243,7 +242,7 @@ Future<String> _startLocalServer(int port) async {
 
 Future<Map<String, dynamic>> exchangeCodeForTokens(
     String authCode, String redirectUri) async {
-  const String clientSecret = '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';
+  const String clientSecret = 'CLIENT_SECRET';
 
   final response = await http.post(
     Uri.parse('https://oauth2.googleapis.com/token'),
