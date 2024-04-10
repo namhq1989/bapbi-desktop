@@ -1,8 +1,8 @@
 import 'package:bapbi_app/hover_effect.dart';
 import 'package:flutter/material.dart';
 
-class HoverIcon extends StatelessWidget {
-  const HoverIcon({
+class HoverableIcon extends StatelessWidget {
+  const HoverableIcon({
     super.key,
     required this.icon,
     this.size,
@@ -18,7 +18,7 @@ class HoverIcon extends StatelessWidget {
       onTap: onTap,
       child: Icon(
         icon,
-        size: size ?? 20.0,
+        size: size ?? 22.0,
       ),
     );
   }
