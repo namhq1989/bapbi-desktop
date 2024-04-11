@@ -18,8 +18,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    print('RENDER HOME SCREEN');
-
     super.build(context);
     return Scaffold(
       body: SafeArea(

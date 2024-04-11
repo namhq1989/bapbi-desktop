@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bapbi_app/header.dart';
+import 'package:bapbi_app/component/layout/header/header.dart';
 import 'package:bapbi_app/home.dart';
 import 'package:bapbi_app/invoice.dart';
 import 'package:bapbi_app/order.dart';
 import 'package:bapbi_app/product.dart';
-import 'package:bapbi_app/sidebar.dart';
+import 'package:bapbi_app/component/layout/sidebar.dart';
 import 'package:flutter/material.dart';
 
 const backgroundStartColor = Color(0xFFFFD500);

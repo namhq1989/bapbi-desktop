@@ -1,15 +1,16 @@
+import 'package:bapbi_app/constant.dart';
 import 'package:flutter/material.dart';
 
-class HoverEffect extends StatefulWidget {
+class HoverableEffect extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
-  const HoverEffect({super.key, required this.child, this.onTap});
+  const HoverableEffect({super.key, required this.child, this.onTap});
 
   @override
-  State<HoverEffect> createState() => _HoverEffectState();
+  State<HoverableEffect> createState() => _HoverableEffectState();
 }
 
-class _HoverEffectState extends State<HoverEffect> {
+class _HoverableEffectState extends State<HoverableEffect> {
   bool _isHovering = false;
 
   @override
@@ -25,7 +26,7 @@ class _HoverEffectState extends State<HoverEffect> {
         child: Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(AppStyles.borderRadius),
             color: _isHovering
                 ? Theme.of(context).colorScheme.inversePrimary
                 : Colors.transparent,

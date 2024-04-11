@@ -1,4 +1,4 @@
-import 'package:bapbi_app/hover_effect.dart';
+import 'package:bapbi_app/widget/hoverable_effect.dart';
 import 'package:flutter/material.dart';
 
 class HoverableIcon extends StatelessWidget {
@@ -14,7 +14,7 @@ class HoverableIcon extends StatelessWidget {
   final Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    return HoverEffect(
+    return HoverableEffect(
       onTap: onTap,
       child: Icon(
         icon,

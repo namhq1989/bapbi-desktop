@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:bapbi_app/hover_cursor.dart';
+import 'package:bapbi_app/widget/hoverable_cursor.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lucide_icons/lucide_icons.dart';
@@ -111,9 +111,7 @@ class LoginContainer extends StatelessWidget {
             bgColor: const Color(0xFF1877F2),
             textColor: const Color(0xFFFFFFFF),
             logo: 'facebook_logo.png',
-            onPressed: () async {
-              print('Sign in with Facebook');
-            },
+            onPressed: () async {},
           ),
           const SizedBox(height: 20),
           Row(
@@ -126,7 +124,7 @@ class LoginContainer extends StatelessWidget {
               ),
               const SizedBox(width: 6.0),
               Text(
-                'No credit card required',
+                'Free to use',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.outline,
                   fontSize: 13.0,
@@ -140,7 +138,7 @@ class LoginContainer extends StatelessWidget {
               ),
               const SizedBox(width: 6.0),
               Text(
-                'Free access',
+                'No credit card required',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.outline,
                   fontSize: 13.0,

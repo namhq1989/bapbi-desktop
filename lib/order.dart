@@ -7,7 +7,6 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('RENDER ORDER SCREEN');
     return const Scaffold(
       body: SafeArea(
           child: Center(

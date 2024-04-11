@@ -1,3 +1,5 @@
+import 'package:bapbi_app/constant.dart';
+import 'package:bapbi_app/widget/container_standard.dart';
 import 'package:flutter/material.dart';
 
 void showAppPopover({
@@ -10,10 +12,8 @@ void showAppPopover({
   double? padding,
   required VoidCallback onClose,
 }) {
-  // Declare the overlay entry variable
   OverlayEntry? overlayEntry;
 
-  // Define a function to remove the overlay entry
   void closePopover() {
     overlayEntry?.remove();
     onClose();
@@ -23,7 +23,6 @@ void showAppPopover({
   overlayEntry = OverlayEntry(
     builder: (context) => Stack(
       children: [
-        // Close popover when tapping outside
         Positioned.fill(
           child: GestureDetector(
             onTap: () => closePopover(),
@@ -31,7 +30,7 @@ void showAppPopover({
             child: Container(color: Colors.transparent),
           ),
         ),
-        // Calculate the anchor widget's position and size
+        // calculate the anchor widget's position and size
         Builder(
           builder: (context) {
             final RenderBox anchorBox =
@@ -55,17 +54,13 @@ void showAppPopover({
               top: popoverY,
               child: Material(
                 elevation: 8.0,
-                borderRadius: BorderRadius.circular(10.0),
-                child: Container(
+                borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+                child: ContainerStandard(
                   width: width,
                   height: height,
                   padding: EdgeInsets.all(padding ?? 8.0),
-                  decoration: BoxDecoration(
-                    color: backgroundColor ??
-                        Theme.of(context).colorScheme.surfaceVariant,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: content,
+                  backgroundColor: backgroundColor,
+                  content: content,
                 ),
               ),
             );

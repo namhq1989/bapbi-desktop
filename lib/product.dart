@@ -7,7 +7,6 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('RENDER PRODUCT SCREEN');
     return const Scaffold(
       body: SafeArea(
           child: Center(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class ItemSpace extends StatelessWidget {
@@ -66,7 +65,7 @@ class _SidebarState extends State<Sidebar> {
             height: 60,
             child: Center(
               child: Image.asset(
-                'assets/images/logo.svg',
+                'assets/images/logo.png',
                 width: 30,
                 height: 30,
               ),
