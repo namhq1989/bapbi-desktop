@@ -1,5 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bapbi_app/router.gr.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'router.g.dart';
+
+final router = AppRouter();
+
+@riverpod
+AppRouter appRouter(AppRouterRef ref) {
+  return router;
+}
 
 @AutoRouterConfig()
 class AppRouter extends $AppRouter {
