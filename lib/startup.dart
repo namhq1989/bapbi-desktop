@@ -2,7 +2,6 @@ import 'package:bapbi_app/app.dart';
 import 'package:bapbi_app/core/config.dart';
 import 'package:bapbi_app/core/http.dart';
 import 'package:bapbi_app/core/storage.dart';
-import 'package:bapbi_app/core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -15,13 +14,11 @@ Future<void> appStartup(AppStartupRef ref) async {
     ref.invalidate(configProvider);
     ref.invalidate(storageProvider);
     ref.invalidate(httpProvider);
-    ref.invalidate(themeProvider);
   });
 
   await ref.watch(configProvider.future);
   await ref.watch(storageProvider.future);
   await ref.watch(httpProvider.future);
-  await ref.watch(themeProvider.future);
 }
 
 class AppStartup extends ConsumerWidget {

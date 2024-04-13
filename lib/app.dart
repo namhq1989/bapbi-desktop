@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:bapbi_app/component/layout/system/auth_provider.dart';
 import 'package:bapbi_app/core/theme.dart';
 import 'package:bapbi_app/router.dart';
@@ -30,7 +29,7 @@ class _AppState extends ConsumerState<App> {
       });
     });
 
-    final theme = ref.watch(themeProvider.notifier);
+    final themeMode = ref.watch(themeModeStateProvider);
 
     return MaterialApp.router(
       title: 'BapBi',
@@ -51,17 +50,17 @@ class _AppState extends ConsumerState<App> {
           interactionEffects: false,
         ),
       ),
-      themeMode: theme.mode(),
+      themeMode: themeMode,
       builder: (context, r) {
         return authState.when(
-          data: (_) => r!,
-          // data: (_) {
-          //   final theme = Theme.of(context);
-          //   return ProviderScope(
-          //     overrides: [themeProvider.overrideWith(() => null)],
-          //     child: r!,
-          //   );
-          // },
+          // data: (_) => r!,
+          data: (_) {
+            final theme = Theme.of(context);
+            return ProviderScope(
+              overrides: [themeModeProvider.overrideWithValue(theme)],
+              child: r!,
+            );
+          },
           loading: () => const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           ),

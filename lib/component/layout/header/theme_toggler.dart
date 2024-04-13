@@ -11,14 +11,14 @@ class ThemeToggler extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, _) {
-        final mode = ref.watch(themeProvider.notifier).mode();
+        final theme = ref.watch(themeModeStateProvider);
         final icon =
-            mode == ThemeMode.light ? LucideIcons.sun : LucideIcons.moon;
+            theme == ThemeMode.light ? LucideIcons.sun : LucideIcons.moon;
 
         return HoverableIcon(
           icon: icon,
           onTap: () {
-            ref.read(themeProvider.notifier).toggleMode();
+            ref.read(themeModeStateProvider.notifier).toggleThemeMode();
           },
         );
       },
