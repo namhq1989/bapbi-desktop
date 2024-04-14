@@ -18,9 +18,8 @@ class ThemeModeState extends StateNotifier<ThemeMode> {
     _initialize();
   }
 
-  Future<void> _initialize() async {
-    final storage = await ref.read(appStorageProvider.future);
-    final mode = storage.svc.getThemeMode();
+  void _initialize() {
+    final mode = ref.read(appStorageProvider.notifier).getThemeMode();
     state = _getThemeModeFromStorage(mode);
   }
 
@@ -36,10 +35,9 @@ class ThemeModeState extends StateNotifier<ThemeMode> {
   }
 
   void toggleThemeMode() async {
-    final storage = await ref.read(appStorageProvider.future);
     final newThemeMode =
         state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
     state = newThemeMode;
-    await storage.svc.setThemeMode(state.name);
+    await ref.read(appStorageProvider.notifier).setThemeMode(state.name);
   }
 }

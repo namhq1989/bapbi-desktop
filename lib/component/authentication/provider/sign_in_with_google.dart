@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:bapbi_app/component/authentication/api/api.dart';
 import 'package:bapbi_app/component/authentication/dto/exchange_google_code.dart';
 import 'package:bapbi_app/component/authentication/dto/sign_in_with_google.dart';
+import 'package:bapbi_app/component/authentication/provider/authentication.dart';
 import 'package:bapbi_app/core/config.dart';
 import 'package:bapbi_app/core/http.dart';
-import 'package:bapbi_app/core/storage.dart';
 import 'package:bapbi_app/utility/error.dart';
 import 'package:bapbi_app/utility/launch_url.dart';
 import 'package:bapbi_app/utility/logger.dart';
@@ -18,17 +18,16 @@ part 'sign_in_with_google.g.dart';
 
 @riverpod
 class SignInWithGoogle extends _$SignInWithGoogle {
-  late SignInWithGoogleService _svc;
+  late _SignInWithGoogleService _svc;
   final Completer<void> _readyCompleter = Completer<void>();
 
   @override
   Future<void> build() async {
     final config = await ref.watch(appConfigProvider.future);
-    final storage = await ref.watch(appStorageProvider.future);
-    final http = await ref.watch(appHttpProvider.future);
+    final http = ref.watch(appHttpProvider.notifier);
     final api = AuthenticationAPI(http: http);
 
-    _svc = SignInWithGoogleService(api: api, config: config, storage: storage);
+    _svc = _SignInWithGoogleService(api: api, config: config);
     _readyCompleter.complete();
   }
 
@@ -49,30 +48,30 @@ class SignInWithGoogle extends _$SignInWithGoogle {
     }
 
     // sign in with google
-    final getTokensResult = await _svc.signInWithGoogle(exchangedResult.right);
-    if (getTokensResult.isLeft) {
-      return getTokensResult.left;
+    final signInResult = await _svc.signInWithGoogle(exchangedResult.right);
+    if (signInResult.isRight) {
+      await ref.read(authenticationProvider.notifier).signInSuccessfully(
+          signInResult.right.accessToken!, signInResult.right.refreshToken!);
+    } else {
+      return signInResult.left;
     }
 
     return null;
   }
 }
 
-class SignInWithGoogleService {
+class _SignInWithGoogleService {
   late AppConfigState _config;
-  late AppStorageState _storage;
 
   late AuthenticationAPI _api;
   late AppLogger _logger;
 
-  SignInWithGoogleService({
+  _SignInWithGoogleService({
     required AuthenticationAPI api,
     required AppConfigState config,
-    required AppStorageState storage,
   }) {
     _config = config;
     _api = api;
-    _storage = storage;
     _logger = AppLogger(prefix: 'Google Sign In');
   }
 
@@ -82,8 +81,6 @@ class SignInWithGoogleService {
       final req = SignInWithGoogleRequest(token: token);
       final result = await _api.signInWithGoogle(req);
       if (result.success!) {
-        await _storage.svc.setAccessToken(result.data!.accessToken!);
-        await _storage.svc.setRefreshToken(result.data!.refreshToken!);
         return Right(result.data!);
       }
 
@@ -91,7 +88,7 @@ class SignInWithGoogleService {
     } on PlatformException catch (err) {
       _logger.error(
           'sign in with Google on PlatformException error: ${err.message}');
-      return Left(AppError.common(err.toString()));
+      return Left(AppError.common(err.message));
     } catch (err) {
       _logger.error('sign in with Google error: ${err.toString()}');
       return Left(AppError.common(err.toString()));

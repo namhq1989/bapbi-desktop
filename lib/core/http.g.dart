@@ -6,11 +6,11 @@ part of 'http.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appHttpHash() => r'1cb139f57a12ea0ce36a03bd624e171d3853d0ec';
+String _$appHttpHash() => r'0470835ff9c4a23496562fc3cad3a119e8ec69ff';
 
 /// See also [AppHttp].
 @ProviderFor(AppHttp)
-final appHttpProvider = AsyncNotifierProvider<AppHttp, AppHttpState>.internal(
+final appHttpProvider = AsyncNotifierProvider<AppHttp, void>.internal(
   AppHttp.new,
   name: r'appHttpProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final appHttpProvider = AsyncNotifierProvider<AppHttp, AppHttpState>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$AppHttp = AsyncNotifier<AppHttpState>;
+typedef _$AppHttp = AsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -6,12 +6,11 @@ part of 'storage.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appStorageHash() => r'dbc7c547a2d932db0b72c7d393a192333cee3d53';
+String _$appStorageHash() => r'2678a28aa0a942fac0fb850311989c2699a30519';
 
 /// See also [AppStorage].
 @ProviderFor(AppStorage)
-final appStorageProvider =
-    AsyncNotifierProvider<AppStorage, AppStorageState>.internal(
+final appStorageProvider = AsyncNotifierProvider<AppStorage, void>.internal(
   AppStorage.new,
   name: r'appStorageProvider',
   debugGetCreateSourceHash:
@@ -20,6 +19,6 @@ final appStorageProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$AppStorage = AsyncNotifier<AppStorageState>;
+typedef _$AppStorage = AsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,42 +1,56 @@
 import 'package:bapbi_app/core/config.dart';
 import 'package:bapbi_app/core/storage.dart';
 import 'package:dio/dio.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:talker/talker.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 
-part 'http.freezed.dart';
 part 'http.g.dart';
-
-@freezed
-class AppHttpState with _$AppHttpState {
-  factory AppHttpState({
-    required AppHttpService svc,
-  }) = _AppHttpState;
-}
 
 @Riverpod(keepAlive: true)
 class AppHttp extends _$AppHttp {
+  late _AppHttpService _svc;
+
   @override
-  Future<AppHttpState> build() async {
+  Future<void> build() async {
     final config = await ref.watch(appConfigProvider.future);
-    final storage = await ref.watch(appStorageProvider.future);
-    final accessToken = storage.svc.getAccessToken();
-    final svc = AppHttpService(config: config, accessToken: accessToken);
-    return AppHttpState(
-      svc: svc,
-    );
+    final accessToken = ref.watch(appStorageProvider.notifier).getAccessToken();
+    _svc = _AppHttpService(config: config, accessToken: accessToken);
+  }
+
+  void setAccessToken(String accessToken) {
+    _svc.setAccessToken(accessToken);
+  }
+
+  Future<Response> get(String path, Map<String, dynamic>? query,
+      {Map<String, dynamic>? headers}) {
+    return _svc.request('GET', path, query, null, headers);
+  }
+
+  Future<Response> post(String path, Object? data) {
+    return _svc.request('POST', path, null, data, null);
+  }
+
+  Future<Response> put(String path, Object? data) {
+    return _svc.request('PUT', path, null, data, null);
+  }
+
+  Future<Response> patch(String path, Object? data) {
+    return _svc.request('PATCH', path, null, data, null);
+  }
+
+  Future<Response> delete(String path, Object? data) {
+    return _svc.request('DELETE', path, null, data, null);
   }
 }
 
-class AppHttpService {
+class _AppHttpService {
   late Dio _dio;
   late String _accessToken;
   late Options _options;
 
-  AppHttpService(
+  _AppHttpService(
       {required AppConfigState config, required String accessToken}) {
     _options = Options(
       contentType: Headers.jsonContentType,
@@ -112,26 +126,5 @@ class AppHttpService {
         },
       );
     }
-  }
-
-  Future<Response> get(String path, Map<String, dynamic>? query,
-      {Map<String, dynamic>? headers}) {
-    return request('GET', path, query, null, headers);
-  }
-
-  Future<Response> post(String path, Object? data) {
-    return request('POST', path, null, data, null);
-  }
-
-  Future<Response> put(String path, Object? data) {
-    return request('PUT', path, null, data, null);
-  }
-
-  Future<Response> patch(String path, Object? data) {
-    return request('PATCH', path, null, data, null);
-  }
-
-  Future<Response> delete(String path, Object? data) {
-    return request('DELETE', path, null, data, null);
   }
 }

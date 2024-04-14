@@ -1,21 +1,28 @@
 import 'package:bapbi_app/component/authentication/dto/exchange_google_code.dart';
+import 'package:bapbi_app/component/authentication/dto/me.dart';
 import 'package:bapbi_app/component/authentication/dto/sign_in_with_google.dart';
 import 'package:bapbi_app/core/http.dart';
 import 'package:dio/dio.dart';
 
 class AuthenticationAPI {
   final String prefix = '/api/auth';
-  late AppHttpState _http;
+  late AppHttp _http;
 
-  AuthenticationAPI({required AppHttpState http}) {
+  AuthenticationAPI({required AppHttp http}) {
     _http = http;
   }
 
   Future<SignInWithGoogleResponse> signInWithGoogle(
       SignInWithGoogleRequest req) async {
     final response =
-        await _http.svc.post('$prefix/signin-with-google', req.toJson());
+        await _http.post('$prefix/signin-with-google', req.toJson());
     final result = SignInWithGoogleResponse.fromJson(response.data);
+    return result;
+  }
+
+  Future<MeResponse> me(MeRequest req) async {
+    final response = await _http.get('$prefix/me', req.toJson());
+    final result = MeResponse.fromJson(response.data);
     return result;
   }
 

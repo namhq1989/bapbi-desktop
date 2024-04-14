@@ -34,9 +34,20 @@ class _HeaderMenuProfileState extends State<HeaderMenuProfile> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                child: Text('Nam HQ', style: TextStyle(fontSize: 14)),
+              Consumer(
+                builder: (context, ref, _) {
+                  final me = ref.watch(authenticationProvider);
+                  return me.when(
+                    data: (data) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8.0),
+                      child: Text(data.me?.name ?? 'N/A',
+                          style: const TextStyle(fontSize: 14)),
+                    ),
+                    error: (error, stackTrace) => Text(error.toString()),
+                    loading: () => const SizedBox.shrink(),
+                  );
+                },
               ),
               const SizedBox(
                 height: 8.0,

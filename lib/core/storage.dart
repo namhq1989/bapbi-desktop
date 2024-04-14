@@ -1,31 +1,55 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'storage.g.dart';
-part 'storage.freezed.dart';
-
-@freezed
-class AppStorageState with _$AppStorageState {
-  factory AppStorageState({
-    required AppStorageService svc,
-  }) = _AppStorageState;
-}
 
 @Riverpod(keepAlive: true)
 class AppStorage extends _$AppStorage {
+  late _AppStorageService _svc;
+
   @override
-  Future<AppStorageState> build() async {
+  Future<void> build() async {
     final sp = await SharedPreferences.getInstance();
-    final svc = AppStorageService(sp: sp);
-    return AppStorageState(svc: svc);
+    _svc = _AppStorageService(sp: sp);
+  }
+
+  // THEME
+
+  String getThemeMode() {
+    return _svc.getThemeMode();
+  }
+
+  Future<void> setThemeMode(String value) async {
+    await _svc.setThemeMode(value);
+  }
+
+  // TOKENS
+
+  String getAccessToken() {
+    return _svc.getAccessToken();
+  }
+
+  Future<void> setAccessToken(String value) async {
+    await _svc.setAccessToken(value);
+  }
+
+  String getRefreshToken() {
+    return _svc.getRefreshToken();
+  }
+
+  Future<void> setRefreshToken(String value) async {
+    await _svc.setRefreshToken(value);
+  }
+
+  Future<void> deleteTokens() async {
+    await _svc.deleteTokens();
   }
 }
 
-class AppStorageService {
+class _AppStorageService {
   late SharedPreferences _sp;
 
-  AppStorageService({required SharedPreferences sp}) {
+  _AppStorageService({required SharedPreferences sp}) {
     _sp = sp;
   }
 

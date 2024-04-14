@@ -53,7 +53,6 @@ class _AppState extends ConsumerState<App> {
       themeMode: themeMode,
       builder: (context, r) {
         return authState.when(
-          // data: (_) => r!,
           data: (_) {
             final theme = Theme.of(context);
             return ProviderScope(

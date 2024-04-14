@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AuthenticationState {
   bool get isAuthenticated => throw _privateConstructorUsedError;
+  Me? get me => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthenticationStateCopyWith<AuthenticationState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $AuthenticationStateCopyWith<$Res> {
           AuthenticationState value, $Res Function(AuthenticationState) then) =
       _$AuthenticationStateCopyWithImpl<$Res, AuthenticationState>;
   @useResult
-  $Res call({bool isAuthenticated});
+  $Res call({bool isAuthenticated, Me? me});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$AuthenticationStateCopyWithImpl<$Res, $Val extends AuthenticationState>
   @override
   $Res call({
     Object? isAuthenticated = null,
+    Object? me = freezed,
   }) {
     return _then(_value.copyWith(
       isAuthenticated: null == isAuthenticated
           ? _value.isAuthenticated
           : isAuthenticated // ignore: cast_nullable_to_non_nullable
               as bool,
+      me: freezed == me
+          ? _value.me
+          : me // ignore: cast_nullable_to_non_nullable
+              as Me?,
     ) as $Val);
   }
 }
@@ -64,7 +70,7 @@ abstract class _$$AuthenticationStateImplCopyWith<$Res>
       __$$AuthenticationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isAuthenticated});
+  $Res call({bool isAuthenticated, Me? me});
 }
 
 /// @nodoc
@@ -79,12 +85,17 @@ class __$$AuthenticationStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isAuthenticated = null,
+    Object? me = freezed,
   }) {
     return _then(_$AuthenticationStateImpl(
       isAuthenticated: null == isAuthenticated
           ? _value.isAuthenticated
           : isAuthenticated // ignore: cast_nullable_to_non_nullable
               as bool,
+      me: freezed == me
+          ? _value.me
+          : me // ignore: cast_nullable_to_non_nullable
+              as Me?,
     ));
   }
 }
@@ -92,14 +103,16 @@ class __$$AuthenticationStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthenticationStateImpl implements _AuthenticationState {
-  _$AuthenticationStateImpl({required this.isAuthenticated});
+  _$AuthenticationStateImpl({required this.isAuthenticated, required this.me});
 
   @override
   final bool isAuthenticated;
+  @override
+  final Me? me;
 
   @override
   String toString() {
-    return 'AuthenticationState(isAuthenticated: $isAuthenticated)';
+    return 'AuthenticationState(isAuthenticated: $isAuthenticated, me: $me)';
   }
 
   @override
@@ -108,11 +121,12 @@ class _$AuthenticationStateImpl implements _AuthenticationState {
         (other.runtimeType == runtimeType &&
             other is _$AuthenticationStateImpl &&
             (identical(other.isAuthenticated, isAuthenticated) ||
-                other.isAuthenticated == isAuthenticated));
+                other.isAuthenticated == isAuthenticated) &&
+            (identical(other.me, me) || other.me == me));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isAuthenticated);
+  int get hashCode => Object.hash(runtimeType, isAuthenticated, me);
 
   @JsonKey(ignore: true)
   @override
@@ -123,11 +137,14 @@ class _$AuthenticationStateImpl implements _AuthenticationState {
 }
 
 abstract class _AuthenticationState implements AuthenticationState {
-  factory _AuthenticationState({required final bool isAuthenticated}) =
-      _$AuthenticationStateImpl;
+  factory _AuthenticationState(
+      {required final bool isAuthenticated,
+      required final Me? me}) = _$AuthenticationStateImpl;
 
   @override
   bool get isAuthenticated;
+  @override
+  Me? get me;
   @override
   @JsonKey(ignore: true)
   _$$AuthenticationStateImplCopyWith<_$AuthenticationStateImpl> get copyWith =>
