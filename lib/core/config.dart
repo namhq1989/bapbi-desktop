@@ -6,21 +6,21 @@ part 'config.freezed.dart';
 part 'config.g.dart';
 
 @freezed
-class ConfigState with _$ConfigState {
-  factory ConfigState({
+class AppConfigState with _$AppConfigState {
+  factory AppConfigState({
     required String apiEndpoint,
     required String googleClientId,
     required String googleClientSecret,
-  }) = _ConfigState;
+  }) = _AppConfigState;
 }
 
 @Riverpod(keepAlive: true)
-class Config extends _$Config {
+class AppConfig extends _$AppConfig {
   @override
-  Future<ConfigState> build() async {
+  Future<AppConfigState> build() async {
     await dotenv.load(fileName: 'assets/env/.env');
 
-    var cfg = ConfigState(
+    var cfg = AppConfigState(
       apiEndpoint: dotenv.env['API_ENDPOINT']!,
       googleClientId: dotenv.env['GOOGLE_CLIENT_ID']!,
       googleClientSecret: dotenv.env['GOOGLE_CLIENT_SECRET']!,

@@ -1,4 +1,4 @@
-import 'package:bapbi_app/component/layout/system/auth_provider.dart';
+import 'package:bapbi_app/component/authentication/provider/authentication.dart';
 import 'package:bapbi_app/core/theme.dart';
 import 'package:bapbi_app/router.dart';
 import 'package:bapbi_app/router.gr.dart';
@@ -16,15 +16,15 @@ class App extends ConsumerStatefulWidget {
 class _AppState extends ConsumerState<App> {
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authStateProvider);
+    final authState = ref.watch(authenticationProvider);
 
     // watch auth
-    ref.listen<AsyncValue<bool>>(authStateProvider, (_, state) {
-      state.whenData((isAuthenticated) {
-        if (isAuthenticated) {
+    ref.listen(authenticationProvider, (_, state) {
+      state.whenData((data) {
+        if (data.isAuthenticated) {
           router.replace(const HomeRoute());
         } else {
-          router.replace(const LoginRoute());
+          router.replace(const SignInRoute());
         }
       });
     });

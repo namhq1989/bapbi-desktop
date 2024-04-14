@@ -1,25 +1,16 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
+import 'package:bapbi_app/component/authentication/provider/authentication.dart';
+import 'package:bapbi_app/component/authentication/provider/sign_in_with_google.dart';
+import 'package:bapbi_app/router.dart';
+import 'package:bapbi_app/router.gr.dart';
 import 'package:bapbi_app/widget/hoverable_cursor.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-
-const List<String> scopes = <String>[
-  'email',
-  'https://www.googleapis.com/auth/userinfo.profile',
-];
-
-const String clientId = '';
-const String clientSecret = '';
 
 @RoutePage()
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignInScreen extends StatelessWidget {
+  const SignInScreen({super.key});
 
   final double smallScreenWidthBreakpoint = 1300;
 
@@ -95,23 +86,41 @@ class LoginContainer extends StatelessWidget {
             'A useful application for office workers',
           ),
           const SizedBox(height: 50),
-          SignInButton(
-            text: 'Sign in with Google',
-            bgColor: const Color(0xFFF2F2F2),
-            textColor: const Color(0xFF1F1F1F),
-            logo: 'google_logo.png',
-            onPressed: () async {
-              final authcode = await signInWithGoogle();
-              print('authcode $authcode');
+          Consumer(
+            builder: (context, ref, _) {
+              return SignInButton(
+                text: 'Sign in with Google',
+                bgColor: const Color(0xFFF2F2F2),
+                textColor: const Color(0xFF1F1F1F),
+                logo: 'google_logo.png',
+                onPressed: () async {
+                  final error = await ref
+                      .read(signInWithGoogleProvider.notifier)
+                      .signInWithGoogle();
+                  if (error == null) {
+                    ref.read(appRouterProvider).replace(const HomeRoute());
+                  } else {
+                    // print('error: ${error.message}');
+                  }
+                },
+              );
             },
           ),
           const SizedBox(height: 12),
-          SignInButton(
-            text: 'Sign in with Facebook',
-            bgColor: const Color(0xFF1877F2),
-            textColor: const Color(0xFFFFFFFF),
-            logo: 'facebook_logo.png',
-            onPressed: () async {},
+          Consumer(
+            builder: (context, ref, _) {
+              return SignInButton(
+                text: 'Sign in with Facebook',
+                bgColor: const Color(0xFF1877F2),
+                textColor: const Color(0xFFFFFFFF),
+                logo: 'facebook_logo.png',
+                onPressed: () async {
+                  ref
+                      .read(authenticationProvider.notifier)
+                      .signInWithFacebook();
+                },
+              );
+            },
           ),
           const SizedBox(height: 20),
           Row(
@@ -207,79 +216,6 @@ class ImageContainer extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-Future<String> signInWithGoogle() async {
-  final port = await _getUnusedPort();
-  final redirectUri = 'http://localhost:$port';
-  final scope = Uri.encodeComponent('email profile');
-  final authUrl =
-      'https://accounts.google.com/o/oauth2/v2/auth?client_id=$clientId&redirect_uri=$redirectUri&response_type=code&scope=$scope&access_type=offline&prompt=select_account';
-
-  await _launchUrl(authUrl);
-
-  final authCode = await _startLocalServer(port);
-  final data = await exchangeCodeForTokens(authCode, redirectUri);
-  print(data);
-  return '';
-}
-
-Future<int> _getUnusedPort() async =>
-    await HttpServer.bind(InternetAddress.loopbackIPv4, 0).then((server) {
-      final port = server.port;
-      server.close();
-      return port;
-    });
-
-Future<void> _launchUrl(String url) async {
-  if (await canLaunchUrlString(url)) {
-    await launchUrlString(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
-Future<String> _startLocalServer(int port) async {
-  final completer = Completer<String>();
-  final server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
-
-  server.listen((HttpRequest request) async {
-    final code = request.uri.queryParameters['code'];
-    if (code != null) {
-      completer.complete(code);
-      request.response
-        ..headers.contentType = ContentType.html
-        ..write(
-            '<html><body><p>You can now close this window.</p></body></html>')
-        ..close();
-      await server.close();
-    }
-  });
-
-  return completer.future;
-}
-
-Future<Map<String, dynamic>> exchangeCodeForTokens(
-    String authCode, String redirectUri) async {
-  final response = await http.post(
-    Uri.parse('https://oauth2.googleapis.com/token'),
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: {
-      'code': authCode,
-      'client_id': clientId,
-      'client_secret': clientSecret,
-      'redirect_uri': redirectUri,
-      'grant_type': 'authorization_code',
-    },
-  );
-
-  if (response.statusCode == 200) {
-    final Map<String, dynamic> tokens = json.decode(response.body);
-    return tokens; // This map contains the access token, refresh token, etc.
-  } else {
-    throw Exception(
-        'Failed to exchange authorization code for tokens. Status code: ${response.statusCode}');
   }
 }
 

@@ -1,11 +1,20 @@
+import 'package:bapbi_app/component/authentication/provider/authentication.dart';
 import 'package:bapbi_app/widget/hoverable_icon.dart';
 import 'package:bapbi_app/widget/hoverable_menu_item.dart';
 import 'package:bapbi_app/widget/popover.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-class HeaderMenuProfile extends StatelessWidget {
+class HeaderMenuProfile extends StatefulWidget {
   const HeaderMenuProfile({super.key});
+
+  @override
+  State<HeaderMenuProfile> createState() => _HeaderMenuProfileState();
+}
+
+class _HeaderMenuProfileState extends State<HeaderMenuProfile> {
+  late VoidCallback _closePopover;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +24,7 @@ class HeaderMenuProfile extends StatelessWidget {
       key: profileAnchorKey,
       icon: LucideIcons.userCircle,
       onTap: () {
-        showAppPopover(
+        _closePopover = showAppPopover(
           context: context,
           anchorKey: profileAnchorKey,
           width: 200,
@@ -46,10 +55,18 @@ class HeaderMenuProfile extends StatelessWidget {
               const SizedBox(
                 height: 16.0,
               ),
-              HoverableMenuItem(
-                iconData: LucideIcons.logOut,
-                text: 'Sign out',
-                onTap: () {},
+              Consumer(
+                builder: (context, ref, _) {
+                  return HoverableMenuItem(
+                    iconData: LucideIcons.logOut,
+                    text: 'Sign out',
+                    onTap: () {
+                      ref.read(authenticationProvider.notifier).signOut();
+                      _closePopover();
+                      // AutoRouter.of(context).replace(const LoginRoute());
+                    },
+                  );
+                },
               ),
             ],
           ),

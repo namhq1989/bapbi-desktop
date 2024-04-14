@@ -2,7 +2,7 @@ import 'package:bapbi_app/constant.dart';
 import 'package:bapbi_app/widget/container_standard.dart';
 import 'package:flutter/material.dart';
 
-void showAppPopover({
+VoidCallback showAppPopover({
   required BuildContext context,
   required GlobalKey anchorKey,
   required Widget content,
@@ -19,7 +19,7 @@ void showAppPopover({
     onClose();
   }
 
-  // Now define the overlay entry
+  // define the overlay entry
   overlayEntry = OverlayEntry(
     builder: (context) => Stack(
       children: [
@@ -70,6 +70,8 @@ void showAppPopover({
     ),
   );
 
-  // Insert the overlay entry into the Overlay
+  // insert the overlay entry into the Overlay
   Overlay.of(context).insert(overlayEntry);
+
+  return closePopover;
 }

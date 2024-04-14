@@ -15,30 +15,30 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$ConfigState {
+mixin _$AppConfigState {
   String get apiEndpoint => throw _privateConstructorUsedError;
   String get googleClientId => throw _privateConstructorUsedError;
   String get googleClientSecret => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $ConfigStateCopyWith<ConfigState> get copyWith =>
+  $AppConfigStateCopyWith<AppConfigState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ConfigStateCopyWith<$Res> {
-  factory $ConfigStateCopyWith(
-          ConfigState value, $Res Function(ConfigState) then) =
-      _$ConfigStateCopyWithImpl<$Res, ConfigState>;
+abstract class $AppConfigStateCopyWith<$Res> {
+  factory $AppConfigStateCopyWith(
+          AppConfigState value, $Res Function(AppConfigState) then) =
+      _$AppConfigStateCopyWithImpl<$Res, AppConfigState>;
   @useResult
   $Res call(
       {String apiEndpoint, String googleClientId, String googleClientSecret});
 }
 
 /// @nodoc
-class _$ConfigStateCopyWithImpl<$Res, $Val extends ConfigState>
-    implements $ConfigStateCopyWith<$Res> {
-  _$ConfigStateCopyWithImpl(this._value, this._then);
+class _$AppConfigStateCopyWithImpl<$Res, $Val extends AppConfigState>
+    implements $AppConfigStateCopyWith<$Res> {
+  _$AppConfigStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -70,11 +70,11 @@ class _$ConfigStateCopyWithImpl<$Res, $Val extends ConfigState>
 }
 
 /// @nodoc
-abstract class _$$ConfigStateImplCopyWith<$Res>
-    implements $ConfigStateCopyWith<$Res> {
-  factory _$$ConfigStateImplCopyWith(
-          _$ConfigStateImpl value, $Res Function(_$ConfigStateImpl) then) =
-      __$$ConfigStateImplCopyWithImpl<$Res>;
+abstract class _$$AppConfigStateImplCopyWith<$Res>
+    implements $AppConfigStateCopyWith<$Res> {
+  factory _$$AppConfigStateImplCopyWith(_$AppConfigStateImpl value,
+          $Res Function(_$AppConfigStateImpl) then) =
+      __$$AppConfigStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -82,11 +82,11 @@ abstract class _$$ConfigStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ConfigStateImplCopyWithImpl<$Res>
-    extends _$ConfigStateCopyWithImpl<$Res, _$ConfigStateImpl>
-    implements _$$ConfigStateImplCopyWith<$Res> {
-  __$$ConfigStateImplCopyWithImpl(
-      _$ConfigStateImpl _value, $Res Function(_$ConfigStateImpl) _then)
+class __$$AppConfigStateImplCopyWithImpl<$Res>
+    extends _$AppConfigStateCopyWithImpl<$Res, _$AppConfigStateImpl>
+    implements _$$AppConfigStateImplCopyWith<$Res> {
+  __$$AppConfigStateImplCopyWithImpl(
+      _$AppConfigStateImpl _value, $Res Function(_$AppConfigStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +96,7 @@ class __$$ConfigStateImplCopyWithImpl<$Res>
     Object? googleClientId = null,
     Object? googleClientSecret = null,
   }) {
-    return _then(_$ConfigStateImpl(
+    return _then(_$AppConfigStateImpl(
       apiEndpoint: null == apiEndpoint
           ? _value.apiEndpoint
           : apiEndpoint // ignore: cast_nullable_to_non_nullable
@@ -115,8 +115,8 @@ class __$$ConfigStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ConfigStateImpl implements _ConfigState {
-  _$ConfigStateImpl(
+class _$AppConfigStateImpl implements _AppConfigState {
+  _$AppConfigStateImpl(
       {required this.apiEndpoint,
       required this.googleClientId,
       required this.googleClientSecret});
@@ -130,14 +130,14 @@ class _$ConfigStateImpl implements _ConfigState {
 
   @override
   String toString() {
-    return 'ConfigState(apiEndpoint: $apiEndpoint, googleClientId: $googleClientId, googleClientSecret: $googleClientSecret)';
+    return 'AppConfigState(apiEndpoint: $apiEndpoint, googleClientId: $googleClientId, googleClientSecret: $googleClientSecret)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ConfigStateImpl &&
+            other is _$AppConfigStateImpl &&
             (identical(other.apiEndpoint, apiEndpoint) ||
                 other.apiEndpoint == apiEndpoint) &&
             (identical(other.googleClientId, googleClientId) ||
@@ -153,15 +153,16 @@ class _$ConfigStateImpl implements _ConfigState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ConfigStateImplCopyWith<_$ConfigStateImpl> get copyWith =>
-      __$$ConfigStateImplCopyWithImpl<_$ConfigStateImpl>(this, _$identity);
+  _$$AppConfigStateImplCopyWith<_$AppConfigStateImpl> get copyWith =>
+      __$$AppConfigStateImplCopyWithImpl<_$AppConfigStateImpl>(
+          this, _$identity);
 }
 
-abstract class _ConfigState implements ConfigState {
-  factory _ConfigState(
+abstract class _AppConfigState implements AppConfigState {
+  factory _AppConfigState(
       {required final String apiEndpoint,
       required final String googleClientId,
-      required final String googleClientSecret}) = _$ConfigStateImpl;
+      required final String googleClientSecret}) = _$AppConfigStateImpl;
 
   @override
   String get apiEndpoint;
@@ -171,6 +172,6 @@ abstract class _ConfigState implements ConfigState {
   String get googleClientSecret;
   @override
   @JsonKey(ignore: true)
-  _$$ConfigStateImplCopyWith<_$ConfigStateImpl> get copyWith =>
+  _$$AppConfigStateImplCopyWith<_$AppConfigStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

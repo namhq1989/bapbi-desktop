@@ -6,19 +6,19 @@ part of 'http.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$httpHash() => r'b12095237af1c30670cace9456c7eb44e61b3680';
+String _$appHttpHash() => r'1cb139f57a12ea0ce36a03bd624e171d3853d0ec';
 
-/// See also [Http].
-@ProviderFor(Http)
-final httpProvider = AsyncNotifierProvider<Http, HttpState>.internal(
-  Http.new,
-  name: r'httpProvider',
+/// See also [AppHttp].
+@ProviderFor(AppHttp)
+final appHttpProvider = AsyncNotifierProvider<AppHttp, AppHttpState>.internal(
+  AppHttp.new,
+  name: r'appHttpProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$httpHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$appHttpHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$Http = AsyncNotifier<HttpState>;
+typedef _$AppHttp = AsyncNotifier<AppHttpState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

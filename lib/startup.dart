@@ -11,14 +11,14 @@ part 'startup.g.dart';
 @Riverpod(keepAlive: true)
 Future<void> appStartup(AppStartupRef ref) async {
   ref.onDispose(() {
-    ref.invalidate(configProvider);
-    ref.invalidate(storageProvider);
-    ref.invalidate(httpProvider);
+    ref.invalidate(appConfigProvider);
+    ref.invalidate(appStorageProvider);
+    ref.invalidate(appHttpProvider);
   });
 
-  await ref.watch(configProvider.future);
-  await ref.watch(storageProvider.future);
-  await ref.watch(httpProvider.future);
+  await ref.watch(appConfigProvider.future);
+  await ref.watch(appStorageProvider.future);
+  await ref.watch(appHttpProvider.future);
 }
 
 class AppStartup extends ConsumerWidget {

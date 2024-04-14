@@ -1,37 +1,137 @@
 import 'package:bapbi_app/core/config.dart';
+import 'package:bapbi_app/core/storage.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:talker/talker.dart';
+import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
+import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 
 part 'http.freezed.dart';
 part 'http.g.dart';
 
 @freezed
-class HttpState with _$HttpState {
-  factory HttpState({
-    required ConfigState config,
-    required Dio dio,
-  }) = _HttpState;
+class AppHttpState with _$AppHttpState {
+  factory AppHttpState({
+    required AppHttpService svc,
+  }) = _AppHttpState;
 }
 
 @Riverpod(keepAlive: true)
-class Http extends _$Http {
+class AppHttp extends _$AppHttp {
   @override
-  Future<HttpState> build() async {
-    final cfg = await ref.watch(configProvider.future);
-    final dio = Dio(
+  Future<AppHttpState> build() async {
+    final config = await ref.watch(appConfigProvider.future);
+    final storage = await ref.watch(appStorageProvider.future);
+    final accessToken = storage.svc.getAccessToken();
+    final svc = AppHttpService(config: config, accessToken: accessToken);
+    return AppHttpState(
+      svc: svc,
+    );
+  }
+}
+
+class AppHttpService {
+  late Dio _dio;
+  late String _accessToken;
+  late Options _options;
+
+  AppHttpService(
+      {required AppConfigState config, required String accessToken}) {
+    _options = Options(
+      contentType: Headers.jsonContentType,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    _dio = Dio(
       BaseOptions(
-        baseUrl: cfg.apiEndpoint,
-        connectTimeout: const Duration(seconds: 10),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        baseUrl: config.apiEndpoint,
+        connectTimeout: const Duration(seconds: 30),
+        validateStatus: (s) => s! < 500,
+      ),
+    );
+    _dio.interceptors.add(
+      TalkerDioLogger(
+        settings: TalkerDioLoggerSettings(
+          printRequestData: true,
+          printResponseData: true,
+          requestPen: AnsiPen()..blue(),
+          responsePen: AnsiPen()..green(),
+          errorPen: AnsiPen()..red(),
+        ),
       ),
     );
 
-    return HttpState(
-      config: cfg,
-      dio: dio,
-    );
+    if (accessToken != '') {
+      setAccessToken(accessToken);
+    }
+  }
+
+  void setAccessToken(String accessToken) {
+    _accessToken = accessToken;
+    _dio.options.headers['Authorization'] = 'Bearer $_accessToken';
+  }
+
+  Future<Response> request(
+    String method,
+    String path,
+    Map<String, dynamic>? query,
+    Object? data,
+    Map<String, dynamic>? headers,
+  ) async {
+    final opts = _options.copyWith();
+    opts.method = method;
+
+    if (headers != null) {
+      opts.headers = headers;
+    }
+
+    try {
+      Response response = await _dio.request(
+        path,
+        data: data,
+        queryParameters: query,
+        options: opts,
+      );
+
+      // assign flag success
+      response.data['success'] =
+          response.statusCode! >= 200 && response.statusCode! < 300;
+
+      // return
+      return response;
+    } on DioException catch (err) {
+      return Response(
+        requestOptions: err.requestOptions,
+        data: <String, dynamic>{
+          'code': '',
+          'data': null,
+          'success': false,
+          'message': 'Server error!',
+        },
+      );
+    }
+  }
+
+  Future<Response> get(String path, Map<String, dynamic>? query,
+      {Map<String, dynamic>? headers}) {
+    return request('GET', path, query, null, headers);
+  }
+
+  Future<Response> post(String path, Object? data) {
+    return request('POST', path, null, data, null);
+  }
+
+  Future<Response> put(String path, Object? data) {
+    return request('PUT', path, null, data, null);
+  }
+
+  Future<Response> patch(String path, Object? data) {
+    return request('PATCH', path, null, data, null);
+  }
+
+  Future<Response> delete(String path, Object? data) {
+    return request('DELETE', path, null, data, null);
   }
 }
