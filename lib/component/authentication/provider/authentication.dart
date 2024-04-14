@@ -135,7 +135,7 @@ class _AuthenticationService {
     final result = await _api.me(req);
     if (!result.success!) {
       _logger.error('get me error: ${result.message}');
-      return Left(AppError.common(result.message));
+      return Left(AppError.apiFailed(result.message, result.code));
     }
 
     MeResponseData user = result.data!;

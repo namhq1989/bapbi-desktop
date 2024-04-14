@@ -37,7 +37,7 @@ class SignInWithGoogle extends _$SignInWithGoogle {
     // get auth code
     final googleData = await _svc.launchSignInGoogleUrl();
     if (googleData.isEmpty) {
-      return AppError.common('Cannot fetch Google\'s data');
+      return AppError.common('Cannot fetch Google\'s data', '');
     }
 
     // exchange code for token
@@ -84,14 +84,14 @@ class _SignInWithGoogleService {
         return Right(result.data!);
       }
 
-      return Left(AppError.common(result.message));
+      return Left(AppError.apiFailed(result.message, result.code));
     } on PlatformException catch (err) {
       _logger.error(
           'sign in with Google on PlatformException error: ${err.message}');
-      return Left(AppError.common(err.message));
+      return Left(AppError.apiFailed(err.message, ''));
     } catch (err) {
       _logger.error('sign in with Google error: ${err.toString()}');
-      return Left(AppError.common(err.toString()));
+      return Left(AppError.apiFailed(err.toString(), ''));
     }
   }
 
@@ -145,10 +145,10 @@ class _SignInWithGoogleService {
     } on PlatformException catch (err) {
       _logger.error(
           'exchange Google code on PlatformException error: ${err.message}');
-      return Left(AppError.common(err.toString()));
+      return Left(AppError.common(err.toString(), ''));
     } catch (err) {
       _logger.error('exchange Google code error: ${err.toString()}');
-      return Left(AppError.common(err.toString()));
+      return Left(AppError.common(err.toString(), ''));
     }
   }
 }

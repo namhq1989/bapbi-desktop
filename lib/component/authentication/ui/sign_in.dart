@@ -98,7 +98,9 @@ class LoginContainer extends StatelessWidget {
                       .read(signInWithGoogleProvider.notifier)
                       .signInWithGoogle();
                   if (error == null) {
-                    ref.read(appRouterProvider).replace(const HomeRoute());
+                    ref
+                        .read(appRouterProvider)
+                        .replace(const HealthDashboardRoute());
                   } else {
                     // print('error: ${error.message}');
                   }

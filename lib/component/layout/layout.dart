@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bapbi_app/component/health/ui/dashboard.dart';
 import 'package:bapbi_app/component/layout/header/header.dart';
-import 'package:bapbi_app/home.dart';
 import 'package:bapbi_app/invoice.dart';
 import 'package:bapbi_app/order.dart';
 import 'package:bapbi_app/product.dart';
 import 'package:bapbi_app/component/layout/sidebar.dart';
+import 'package:bapbi_app/widget/notification_listener.dart';
 import 'package:flutter/material.dart';
 
 const backgroundStartColor = Color(0xFFFFD500);
@@ -26,6 +27,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
     return Scaffold(
       body: Row(
         children: [
+          const AppNotificationListener(),
           Sidebar(onSelect: (i) {
             setState(() {
               _pageController.jumpToPage(i);
@@ -39,7 +41,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                   child: PageView(
                     controller: _pageController,
                     children: const [
-                      HomeScreen(),
+                      HealthDashboardScreen(),
                       ProductScreen(),
                       OrderScreen(),
                       InvoiceScreen(),

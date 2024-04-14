@@ -1,7 +1,9 @@
 import 'package:bapbi_app/component/authentication/provider/authentication.dart';
+import 'package:bapbi_app/constant.dart';
 import 'package:bapbi_app/core/theme.dart';
 import 'package:bapbi_app/router.dart';
 import 'package:bapbi_app/router.gr.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +24,7 @@ class _AppState extends ConsumerState<App> {
     ref.listen(authenticationProvider, (_, state) {
       state.whenData((data) {
         if (data.isAuthenticated) {
-          router.replace(const HomeRoute());
+          router.replace(const HealthDashboardRoute());
         } else {
           router.replace(const SignInRoute());
         }
@@ -40,6 +42,7 @@ class _AppState extends ConsumerState<App> {
         splashFactory: NoSplash.splashFactory,
         subThemesData: const FlexSubThemesData(
           interactionEffects: false,
+          elevatedButtonRadius: AppStyles.borderRadius,
         ),
       ),
       darkTheme: FlexThemeData.dark(
@@ -48,6 +51,7 @@ class _AppState extends ConsumerState<App> {
         splashFactory: NoSplash.splashFactory,
         subThemesData: const FlexSubThemesData(
           interactionEffects: false,
+          elevatedButtonRadius: AppStyles.borderRadius,
         ),
       ),
       themeMode: themeMode,
@@ -57,7 +61,7 @@ class _AppState extends ConsumerState<App> {
             final theme = Theme.of(context);
             return ProviderScope(
               overrides: [themeModeProvider.overrideWithValue(theme)],
-              child: r!,
+              child: Toast(navigatorKey: navKey, child: r!),
             );
           },
           loading: () => const Scaffold(

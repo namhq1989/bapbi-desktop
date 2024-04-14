@@ -24,7 +24,7 @@ class ContainerStandard extends StatelessWidget {
       height: height,
       padding: padding,
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: backgroundColor ?? Theme.of(context).colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(AppStyles.borderRadius),
       ),
       child: content,
