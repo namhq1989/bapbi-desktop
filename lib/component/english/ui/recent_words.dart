@@ -1,5 +1,5 @@
 import 'package:bapbi_app/widget/container_standard.dart';
-import 'package:data_table_2/data_table_2.dart';
+import 'package:bapbi_app/widget/hoverable_cursor.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -104,8 +104,10 @@ class EnglishRecentWords extends StatelessWidget {
         ),
         ContainerStandard(
           width: 800,
-          height: 570,
+          height: 600,
           content: SfDataGrid(
+            gridLinesVisibility: GridLinesVisibility.none,
+            headerGridLinesVisibility: GridLinesVisibility.none,
             source: dataSource,
             columnWidthMode: ColumnWidthMode.fill,
             columns: <GridColumn>[
@@ -113,6 +115,13 @@ class EnglishRecentWords extends StatelessWidget {
                   columnName: 'level',
                   label: Container(
                       padding: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).colorScheme.outline),
+                        ),
+                      ),
                       alignment: Alignment.center,
                       child: Text(
                         'Level',
@@ -120,12 +129,26 @@ class EnglishRecentWords extends StatelessWidget {
               GridColumn(
                   columnName: 'word',
                   label: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).colorScheme.outline),
+                        ),
+                      ),
                       padding: EdgeInsets.all(8.0),
                       alignment: Alignment.center,
                       child: Text('Word'))),
               GridColumn(
                   columnName: 'translated',
                   label: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).colorScheme.outline),
+                        ),
+                      ),
                       padding: EdgeInsets.all(8.0),
                       alignment: Alignment.center,
                       child: Text(
@@ -135,6 +158,13 @@ class EnglishRecentWords extends StatelessWidget {
               GridColumn(
                   columnName: 'date',
                   label: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).colorScheme.outline),
+                        ),
+                      ),
                       padding: EdgeInsets.all(8.0),
                       alignment: Alignment.center,
                       child: Text('Date'))),
@@ -169,10 +199,12 @@ class WordsDataSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
-      return Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.all(8.0),
-        child: Text(e.value.toString()),
+      return HoverableCursor(
+        child: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(8.0),
+          child: Text(e.value.toString()),
+        ),
       );
     }).toList());
   }
