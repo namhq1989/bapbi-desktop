@@ -47,13 +47,11 @@ _$HydrationStatsResponseDataImpl _$$HydrationStatsResponseDataImplFromJson(
           : HydrationStatsTodayProgress.fromJson(
               json['todayProgress'] as Map<String, dynamic>),
       longestStreakValue: json['longestStreakValue'] as int?,
-      longestStreakAt: json['longestStreakAt'] == null
-          ? null
-          : DateTime.parse(json['longestStreakAt'] as String),
+      longestStreakAt:
+          const TimestampSerializer().fromJson(json['longestStreakAt']),
       highestIntakeAmountValue: json['highestIntakeAmountValue'] as int?,
-      highestIntakeAmountAt: json['highestIntakeAmountAt'] == null
-          ? null
-          : DateTime.parse(json['highestIntakeAmountAt'] as String),
+      highestIntakeAmountAt:
+          const TimestampSerializer().fromJson(json['highestIntakeAmountAt']),
     );
 
 Map<String, dynamic> _$$HydrationStatsResponseDataImplToJson(
@@ -62,36 +60,41 @@ Map<String, dynamic> _$$HydrationStatsResponseDataImplToJson(
       'todayIntakes': instance.todayIntakes,
       'todayProgress': instance.todayProgress,
       'longestStreakValue': instance.longestStreakValue,
-      'longestStreakAt': instance.longestStreakAt?.toIso8601String(),
+      'longestStreakAt': _$JsonConverterToJson<dynamic, DateTime>(
+          instance.longestStreakAt, const TimestampSerializer().toJson),
       'highestIntakeAmountValue': instance.highestIntakeAmountValue,
-      'highestIntakeAmountAt':
-          instance.highestIntakeAmountAt?.toIso8601String(),
+      'highestIntakeAmountAt': _$JsonConverterToJson<dynamic, DateTime>(
+          instance.highestIntakeAmountAt, const TimestampSerializer().toJson),
     };
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);
 
 _$HydrationStatsTodayIntakeDataImpl
     _$$HydrationStatsTodayIntakeDataImplFromJson(Map<String, dynamic> json) =>
         _$HydrationStatsTodayIntakeDataImpl(
-          amount: json['amount'] as String?,
-          intakeAt: json['intakeAt'] == null
-              ? null
-              : DateTime.parse(json['intakeAt'] as String),
-          createdAt: json['createdAt'] == null
-              ? null
-              : DateTime.parse(json['createdAt'] as String),
+          amount: json['amount'] as int?,
+          intakeAt: const TimestampSerializer().fromJson(json['intakeAt']),
+          createdAt: const TimestampSerializer().fromJson(json['createdAt']),
         );
 
 Map<String, dynamic> _$$HydrationStatsTodayIntakeDataImplToJson(
         _$HydrationStatsTodayIntakeDataImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
-      'intakeAt': instance.intakeAt?.toIso8601String(),
-      'createdAt': instance.createdAt?.toIso8601String(),
+      'intakeAt': _$JsonConverterToJson<dynamic, DateTime>(
+          instance.intakeAt, const TimestampSerializer().toJson),
+      'createdAt': _$JsonConverterToJson<dynamic, DateTime>(
+          instance.createdAt, const TimestampSerializer().toJson),
     };
 
 _$HydrationStatsTodayProgressImpl _$$HydrationStatsTodayProgressImplFromJson(
         Map<String, dynamic> json) =>
     _$HydrationStatsTodayProgressImpl(
-      goal: json['goal'] as String?,
+      goal: json['goal'] as int?,
       completed: json['completed'] as int?,
       isAchieved: json['isAchieved'] as bool?,
     );

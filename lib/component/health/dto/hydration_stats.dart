@@ -1,3 +1,4 @@
+import 'package:bapbi_app/extension/datetime.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'hydration_stats.freezed.dart';
@@ -31,9 +32,13 @@ class HydrationStatsResponseData with _$HydrationStatsResponseData {
     List<HydrationStatsTodayIntakeData>? todayIntakes,
     @JsonKey(name: 'todayProgress') HydrationStatsTodayProgress? todayProgress,
     @JsonKey(name: 'longestStreakValue') int? longestStreakValue,
-    @JsonKey(name: 'longestStreakAt') DateTime? longestStreakAt,
+    @TimestampSerializer()
+    @JsonKey(name: 'longestStreakAt')
+    DateTime? longestStreakAt,
     @JsonKey(name: 'highestIntakeAmountValue') int? highestIntakeAmountValue,
-    @JsonKey(name: 'highestIntakeAmountAt') DateTime? highestIntakeAmountAt,
+    @TimestampSerializer()
+    @JsonKey(name: 'highestIntakeAmountAt')
+    DateTime? highestIntakeAmountAt,
   }) = _HydrationStatsResponseData;
 
   factory HydrationStatsResponseData.fromJson(Map<String, dynamic> json) =>
@@ -43,9 +48,9 @@ class HydrationStatsResponseData with _$HydrationStatsResponseData {
 @freezed
 class HydrationStatsTodayIntakeData with _$HydrationStatsTodayIntakeData {
   factory HydrationStatsTodayIntakeData({
-    @JsonKey(name: 'amount') String? amount,
-    @JsonKey(name: 'intakeAt') DateTime? intakeAt,
-    @JsonKey(name: 'createdAt') DateTime? createdAt,
+    @JsonKey(name: 'amount') int? amount,
+    @TimestampSerializer() @JsonKey(name: 'intakeAt') DateTime? intakeAt,
+    @TimestampSerializer() @JsonKey(name: 'createdAt') DateTime? createdAt,
   }) = _HydrationStatsTodayIntakeData;
 
   factory HydrationStatsTodayIntakeData.fromJson(Map<String, dynamic> json) =>
@@ -55,7 +60,7 @@ class HydrationStatsTodayIntakeData with _$HydrationStatsTodayIntakeData {
 @freezed
 class HydrationStatsTodayProgress with _$HydrationStatsTodayProgress {
   factory HydrationStatsTodayProgress({
-    @JsonKey(name: 'goal') String? goal,
+    @JsonKey(name: 'goal') int? goal,
     @JsonKey(name: 'completed') int? completed,
     @JsonKey(name: 'isAchieved') bool? isAchieved,
   }) = _HydrationStatsTodayProgress;

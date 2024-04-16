@@ -14,8 +14,16 @@ class ContentView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-        child: child,
+        padding: const EdgeInsets.only(
+          top: 64.0,
+          bottom: 48.0,
+          left: 48.0,
+          right: 48.0,
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          child: child,
+        ),
       ),
     );
   }

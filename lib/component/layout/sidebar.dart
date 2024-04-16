@@ -11,8 +11,10 @@ class ItemSpace extends StatelessWidget {
 }
 
 class Sidebar extends StatefulWidget {
-  const Sidebar({super.key, required this.onSelect});
+  const Sidebar(
+      {super.key, required this.onSelect, required this.selectedIndex});
 
+  final int selectedIndex;
   final Function(int) onSelect;
 
   @override
@@ -20,8 +22,6 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  int _selectedIndex = 0;
-
   // Define your menu items including the screen widget they should show
   final List<MenuItem> _menuItems = [
     MenuItem(
@@ -40,12 +40,13 @@ class _SidebarState extends State<Sidebar> {
       icon: LucideIcons.circleDollarSign,
       title: 'Expense',
     ),
+    MenuItem(
+      icon: LucideIcons.languages,
+      title: 'English',
+    ),
   ];
 
   void selectItem(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
     widget.onSelect(index);
   }
 
@@ -79,7 +80,7 @@ class _SidebarState extends State<Sidebar> {
                 HoverWidget(
                   icon: item.icon,
                   title: item.title,
-                  isSelected: _selectedIndex == _menuItems.indexOf(item),
+                  isSelected: widget.selectedIndex == _menuItems.indexOf(item),
                   onTap: () => selectItem(_menuItems.indexOf(item)),
                 ),
                 const ItemSpace(),

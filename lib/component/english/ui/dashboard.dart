@@ -1,17 +1,18 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bapbi_app/component/health/ui/hydration_stats.dart';
+import 'package:bapbi_app/component/english/ui/recent_words.dart';
+import 'package:bapbi_app/widget/container_standard.dart';
 import 'package:bapbi_app/widget/content_view.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class HealthDashboardScreen extends StatefulWidget {
-  const HealthDashboardScreen({super.key});
+class EnglishDashboardScreen extends StatefulWidget {
+  const EnglishDashboardScreen({super.key});
 
   @override
-  State<HealthDashboardScreen> createState() => _HealthDashboardScreenState();
+  State<EnglishDashboardScreen> createState() => _EnglishDashboardScreenState();
 }
 
-class _HealthDashboardScreenState extends State<HealthDashboardScreen>
+class _EnglishDashboardScreenState extends State<EnglishDashboardScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -23,7 +24,11 @@ class _HealthDashboardScreenState extends State<HealthDashboardScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HydrationStats(),
+          Column(
+            children: [
+              EnglishRecentWords(),
+            ],
+          ),
         ],
       ),
     );

@@ -19,7 +19,6 @@ class HydrationProfile extends _$HydrationProfile {
     final req = HydrationEnableProfileRequest();
     final result = await api.hydrationEnableProfile(req);
     if (!result.success!) {
-      print('message ${result.message}');
       ref
           .read(notificationManagerProvider.notifier)
           .addNotification(result.message!);

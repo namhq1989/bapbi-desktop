@@ -22,7 +22,7 @@ class ContainerStandard extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      padding: padding,
+      padding: padding ?? const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: backgroundColor ?? Theme.of(context).colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(AppStyles.borderRadius),

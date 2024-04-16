@@ -18,9 +18,13 @@ class HydrationStats extends StatelessWidget {
             final stats = ref.watch(hydrationStatsProvider);
             return stats.when(
               data: (data) {
-                return Center(
-                  child:
-                      Text('Longest streak value: ${data.longestStreakValue}'),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        'Today progress: ${data.todayProgress!.goal ?? 0}/${data.todayProgress!.completed ?? 0}'),
+                    Text('Longest streak value: ${data.longestStreakValue}'),
+                  ],
                 );
               },
               error: (error, _) {

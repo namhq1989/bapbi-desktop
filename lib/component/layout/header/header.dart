@@ -1,3 +1,4 @@
+import 'package:bapbi_app/component/layout/header/clipboard.dart';
 import 'package:bapbi_app/component/layout/header/notification.dart';
 import 'package:bapbi_app/component/layout/header/profile.dart';
 import 'package:bapbi_app/component/layout/header/theme_toggler.dart';
@@ -25,7 +26,7 @@ class Header extends StatelessWidget {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('HEALTH'),
+          HeaderMenuClipboard(),
           SizedBox(
             child: Row(
               children: [

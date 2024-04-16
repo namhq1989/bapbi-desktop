@@ -1,4 +1,5 @@
 import 'package:bapbi_app/component/authentication/provider/authentication.dart';
+import 'package:bapbi_app/component/english/provider/clipboard.dart';
 import 'package:bapbi_app/constant.dart';
 import 'package:bapbi_app/core/theme.dart';
 import 'package:bapbi_app/router.dart';
@@ -6,6 +7,7 @@ import 'package:bapbi_app/router.gr.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class App extends ConsumerStatefulWidget {
@@ -15,22 +17,49 @@ class App extends ConsumerStatefulWidget {
   ConsumerState<App> createState() => _AppState();
 }
 
-class _AppState extends ConsumerState<App> {
+class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  void getClipboardData() async {
+    ClipboardData? clipboardData =
+        await Clipboard.getData(Clipboard.kTextPlain);
+    if (clipboardData != null) {
+      ref.read(clipboardTextProvider.notifier).textCopied(clipboardData.text!);
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      getClipboardData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authenticationProvider);
-
     // watch auth
     ref.listen(authenticationProvider, (_, state) {
       state.whenData((data) {
         if (data.isAuthenticated) {
-          router.replace(const HealthDashboardRoute());
+          router.replace(const LayoutRoute());
         } else {
           router.replace(const SignInRoute());
         }
       });
     });
 
+    final authState = ref.watch(authenticationProvider);
     final themeMode = ref.watch(themeModeStateProvider);
 
     return MaterialApp.router(

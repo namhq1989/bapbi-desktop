@@ -335,10 +335,12 @@ mixin _$HydrationStatsResponseData {
       throw _privateConstructorUsedError;
   @JsonKey(name: 'longestStreakValue')
   int? get longestStreakValue => throw _privateConstructorUsedError;
+  @TimestampSerializer()
   @JsonKey(name: 'longestStreakAt')
   DateTime? get longestStreakAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'highestIntakeAmountValue')
   int? get highestIntakeAmountValue => throw _privateConstructorUsedError;
+  @TimestampSerializer()
   @JsonKey(name: 'highestIntakeAmountAt')
   DateTime? get highestIntakeAmountAt => throw _privateConstructorUsedError;
 
@@ -361,9 +363,13 @@ abstract class $HydrationStatsResponseDataCopyWith<$Res> {
       @JsonKey(name: 'todayProgress')
       HydrationStatsTodayProgress? todayProgress,
       @JsonKey(name: 'longestStreakValue') int? longestStreakValue,
-      @JsonKey(name: 'longestStreakAt') DateTime? longestStreakAt,
+      @TimestampSerializer()
+      @JsonKey(name: 'longestStreakAt')
+      DateTime? longestStreakAt,
       @JsonKey(name: 'highestIntakeAmountValue') int? highestIntakeAmountValue,
-      @JsonKey(name: 'highestIntakeAmountAt') DateTime? highestIntakeAmountAt});
+      @TimestampSerializer()
+      @JsonKey(name: 'highestIntakeAmountAt')
+      DateTime? highestIntakeAmountAt});
 
   $HydrationStatsTodayProgressCopyWith<$Res>? get todayProgress;
 }
@@ -446,9 +452,13 @@ abstract class _$$HydrationStatsResponseDataImplCopyWith<$Res>
       @JsonKey(name: 'todayProgress')
       HydrationStatsTodayProgress? todayProgress,
       @JsonKey(name: 'longestStreakValue') int? longestStreakValue,
-      @JsonKey(name: 'longestStreakAt') DateTime? longestStreakAt,
+      @TimestampSerializer()
+      @JsonKey(name: 'longestStreakAt')
+      DateTime? longestStreakAt,
       @JsonKey(name: 'highestIntakeAmountValue') int? highestIntakeAmountValue,
-      @JsonKey(name: 'highestIntakeAmountAt') DateTime? highestIntakeAmountAt});
+      @TimestampSerializer()
+      @JsonKey(name: 'highestIntakeAmountAt')
+      DateTime? highestIntakeAmountAt});
 
   @override
   $HydrationStatsTodayProgressCopyWith<$Res>? get todayProgress;
@@ -511,9 +521,13 @@ class _$HydrationStatsResponseDataImpl implements _HydrationStatsResponseData {
       final List<HydrationStatsTodayIntakeData>? todayIntakes,
       @JsonKey(name: 'todayProgress') this.todayProgress,
       @JsonKey(name: 'longestStreakValue') this.longestStreakValue,
-      @JsonKey(name: 'longestStreakAt') this.longestStreakAt,
+      @TimestampSerializer()
+      @JsonKey(name: 'longestStreakAt')
+      this.longestStreakAt,
       @JsonKey(name: 'highestIntakeAmountValue') this.highestIntakeAmountValue,
-      @JsonKey(name: 'highestIntakeAmountAt') this.highestIntakeAmountAt})
+      @TimestampSerializer()
+      @JsonKey(name: 'highestIntakeAmountAt')
+      this.highestIntakeAmountAt})
       : _todayIntakes = todayIntakes;
 
   factory _$HydrationStatsResponseDataImpl.fromJson(
@@ -538,12 +552,14 @@ class _$HydrationStatsResponseDataImpl implements _HydrationStatsResponseData {
   @JsonKey(name: 'longestStreakValue')
   final int? longestStreakValue;
   @override
+  @TimestampSerializer()
   @JsonKey(name: 'longestStreakAt')
   final DateTime? longestStreakAt;
   @override
   @JsonKey(name: 'highestIntakeAmountValue')
   final int? highestIntakeAmountValue;
   @override
+  @TimestampSerializer()
   @JsonKey(name: 'highestIntakeAmountAt')
   final DateTime? highestIntakeAmountAt;
 
@@ -606,9 +622,12 @@ abstract class _HydrationStatsResponseData
           @JsonKey(name: 'todayProgress')
           final HydrationStatsTodayProgress? todayProgress,
           @JsonKey(name: 'longestStreakValue') final int? longestStreakValue,
-          @JsonKey(name: 'longestStreakAt') final DateTime? longestStreakAt,
+          @TimestampSerializer()
+          @JsonKey(name: 'longestStreakAt')
+          final DateTime? longestStreakAt,
           @JsonKey(name: 'highestIntakeAmountValue')
           final int? highestIntakeAmountValue,
+          @TimestampSerializer()
           @JsonKey(name: 'highestIntakeAmountAt')
           final DateTime? highestIntakeAmountAt}) =
       _$HydrationStatsResponseDataImpl;
@@ -626,12 +645,14 @@ abstract class _HydrationStatsResponseData
   @JsonKey(name: 'longestStreakValue')
   int? get longestStreakValue;
   @override
+  @TimestampSerializer()
   @JsonKey(name: 'longestStreakAt')
   DateTime? get longestStreakAt;
   @override
   @JsonKey(name: 'highestIntakeAmountValue')
   int? get highestIntakeAmountValue;
   @override
+  @TimestampSerializer()
   @JsonKey(name: 'highestIntakeAmountAt')
   DateTime? get highestIntakeAmountAt;
   @override
@@ -648,9 +669,11 @@ HydrationStatsTodayIntakeData _$HydrationStatsTodayIntakeDataFromJson(
 /// @nodoc
 mixin _$HydrationStatsTodayIntakeData {
   @JsonKey(name: 'amount')
-  String? get amount => throw _privateConstructorUsedError;
+  int? get amount => throw _privateConstructorUsedError;
+  @TimestampSerializer()
   @JsonKey(name: 'intakeAt')
   DateTime? get intakeAt => throw _privateConstructorUsedError;
+  @TimestampSerializer()
   @JsonKey(name: 'createdAt')
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
@@ -669,9 +692,9 @@ abstract class $HydrationStatsTodayIntakeDataCopyWith<$Res> {
           HydrationStatsTodayIntakeData>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'amount') String? amount,
-      @JsonKey(name: 'intakeAt') DateTime? intakeAt,
-      @JsonKey(name: 'createdAt') DateTime? createdAt});
+      {@JsonKey(name: 'amount') int? amount,
+      @TimestampSerializer() @JsonKey(name: 'intakeAt') DateTime? intakeAt,
+      @TimestampSerializer() @JsonKey(name: 'createdAt') DateTime? createdAt});
 }
 
 /// @nodoc
@@ -696,7 +719,7 @@ class _$HydrationStatsTodayIntakeDataCopyWithImpl<$Res,
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       intakeAt: freezed == intakeAt
           ? _value.intakeAt
           : intakeAt // ignore: cast_nullable_to_non_nullable
@@ -719,9 +742,9 @@ abstract class _$$HydrationStatsTodayIntakeDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'amount') String? amount,
-      @JsonKey(name: 'intakeAt') DateTime? intakeAt,
-      @JsonKey(name: 'createdAt') DateTime? createdAt});
+      {@JsonKey(name: 'amount') int? amount,
+      @TimestampSerializer() @JsonKey(name: 'intakeAt') DateTime? intakeAt,
+      @TimestampSerializer() @JsonKey(name: 'createdAt') DateTime? createdAt});
 }
 
 /// @nodoc
@@ -745,7 +768,7 @@ class __$$HydrationStatsTodayIntakeDataImplCopyWithImpl<$Res>
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       intakeAt: freezed == intakeAt
           ? _value.intakeAt
           : intakeAt // ignore: cast_nullable_to_non_nullable
@@ -764,8 +787,8 @@ class _$HydrationStatsTodayIntakeDataImpl
     implements _HydrationStatsTodayIntakeData {
   _$HydrationStatsTodayIntakeDataImpl(
       {@JsonKey(name: 'amount') this.amount,
-      @JsonKey(name: 'intakeAt') this.intakeAt,
-      @JsonKey(name: 'createdAt') this.createdAt});
+      @TimestampSerializer() @JsonKey(name: 'intakeAt') this.intakeAt,
+      @TimestampSerializer() @JsonKey(name: 'createdAt') this.createdAt});
 
   factory _$HydrationStatsTodayIntakeDataImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -773,11 +796,13 @@ class _$HydrationStatsTodayIntakeDataImpl
 
   @override
   @JsonKey(name: 'amount')
-  final String? amount;
+  final int? amount;
   @override
+  @TimestampSerializer()
   @JsonKey(name: 'intakeAt')
   final DateTime? intakeAt;
   @override
+  @TimestampSerializer()
   @JsonKey(name: 'createdAt')
   final DateTime? createdAt;
 
@@ -821,21 +846,26 @@ class _$HydrationStatsTodayIntakeDataImpl
 abstract class _HydrationStatsTodayIntakeData
     implements HydrationStatsTodayIntakeData {
   factory _HydrationStatsTodayIntakeData(
-          {@JsonKey(name: 'amount') final String? amount,
-          @JsonKey(name: 'intakeAt') final DateTime? intakeAt,
-          @JsonKey(name: 'createdAt') final DateTime? createdAt}) =
-      _$HydrationStatsTodayIntakeDataImpl;
+      {@JsonKey(name: 'amount') final int? amount,
+      @TimestampSerializer()
+      @JsonKey(name: 'intakeAt')
+      final DateTime? intakeAt,
+      @TimestampSerializer()
+      @JsonKey(name: 'createdAt')
+      final DateTime? createdAt}) = _$HydrationStatsTodayIntakeDataImpl;
 
   factory _HydrationStatsTodayIntakeData.fromJson(Map<String, dynamic> json) =
       _$HydrationStatsTodayIntakeDataImpl.fromJson;
 
   @override
   @JsonKey(name: 'amount')
-  String? get amount;
+  int? get amount;
   @override
+  @TimestampSerializer()
   @JsonKey(name: 'intakeAt')
   DateTime? get intakeAt;
   @override
+  @TimestampSerializer()
   @JsonKey(name: 'createdAt')
   DateTime? get createdAt;
   @override
@@ -853,7 +883,7 @@ HydrationStatsTodayProgress _$HydrationStatsTodayProgressFromJson(
 /// @nodoc
 mixin _$HydrationStatsTodayProgress {
   @JsonKey(name: 'goal')
-  String? get goal => throw _privateConstructorUsedError;
+  int? get goal => throw _privateConstructorUsedError;
   @JsonKey(name: 'completed')
   int? get completed => throw _privateConstructorUsedError;
   @JsonKey(name: 'isAchieved')
@@ -874,7 +904,7 @@ abstract class $HydrationStatsTodayProgressCopyWith<$Res> {
           HydrationStatsTodayProgress>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'goal') String? goal,
+      {@JsonKey(name: 'goal') int? goal,
       @JsonKey(name: 'completed') int? completed,
       @JsonKey(name: 'isAchieved') bool? isAchieved});
 }
@@ -901,7 +931,7 @@ class _$HydrationStatsTodayProgressCopyWithImpl<$Res,
       goal: freezed == goal
           ? _value.goal
           : goal // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       completed: freezed == completed
           ? _value.completed
           : completed // ignore: cast_nullable_to_non_nullable
@@ -924,7 +954,7 @@ abstract class _$$HydrationStatsTodayProgressImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'goal') String? goal,
+      {@JsonKey(name: 'goal') int? goal,
       @JsonKey(name: 'completed') int? completed,
       @JsonKey(name: 'isAchieved') bool? isAchieved});
 }
@@ -950,7 +980,7 @@ class __$$HydrationStatsTodayProgressImplCopyWithImpl<$Res>
       goal: freezed == goal
           ? _value.goal
           : goal // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       completed: freezed == completed
           ? _value.completed
           : completed // ignore: cast_nullable_to_non_nullable
@@ -978,7 +1008,7 @@ class _$HydrationStatsTodayProgressImpl
 
   @override
   @JsonKey(name: 'goal')
-  final String? goal;
+  final int? goal;
   @override
   @JsonKey(name: 'completed')
   final int? completed;
@@ -1025,7 +1055,7 @@ class _$HydrationStatsTodayProgressImpl
 abstract class _HydrationStatsTodayProgress
     implements HydrationStatsTodayProgress {
   factory _HydrationStatsTodayProgress(
-          {@JsonKey(name: 'goal') final String? goal,
+          {@JsonKey(name: 'goal') final int? goal,
           @JsonKey(name: 'completed') final int? completed,
           @JsonKey(name: 'isAchieved') final bool? isAchieved}) =
       _$HydrationStatsTodayProgressImpl;
@@ -1035,7 +1065,7 @@ abstract class _HydrationStatsTodayProgress
 
   @override
   @JsonKey(name: 'goal')
-  String? get goal;
+  int? get goal;
   @override
   @JsonKey(name: 'completed')
   int? get completed;

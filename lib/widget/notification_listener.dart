@@ -1,9 +1,8 @@
 import 'package:bapbi_app/constant.dart';
 import 'package:bapbi_app/core/notification.dart';
-import 'package:bapbi_app/widget/container_standard.dart';
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flash/flash.dart';
 
 class AppNotificationListener extends ConsumerWidget {
   const AppNotificationListener({super.key});

@@ -22,17 +22,7 @@ class AppRouter extends $AppRouter {
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: LayoutRoute.page, initial: true, children: [
-          AutoRoute(
-            page: HealthDashboardRoute.page,
-            initial: true,
-            maintainState: true,
-          ),
-          AutoRoute(
-            page: ProductRoute.page,
-            maintainState: true,
-          ),
-        ]),
+        AutoRoute(page: LayoutRoute.page, initial: true),
         AutoRoute(page: SignInRoute.page),
       ];
 }
